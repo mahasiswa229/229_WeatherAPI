@@ -16,6 +16,52 @@
         <div id="weatherResult"></div>
     </div>
     <script>
+         // API Key dan Lokasi default
+        const API_KEY = "f8d097b1a6564076a7f20824250710"; 
+
+        // Fungsi untuk mengambil data dari API
+        function fetchWeather(location) {
+            $('#weather-display').html('<p style="color: orange;">Memuat data cuaca untuk <strong>' + location + '</strong>... ⏳</p>');
+            
+            const urlapi = `http://api.weatherapi.com/v1/current.json?key=${API_KEY}&q=${location}&aqi=no`;
+
+            $.ajax({
+                url: urlapi,
+                method: "GET",
+                success: function(data){
+                    displayWeather(data);
+                },
+                error: function(){
+                    displayError(location);
+                }
+            });
+        }
+
+        // Fungsi untuk menampilkan data
+        function displayWeather(data) {
+            const location = data.location;
+            const current = data.current;
+
+            // Mengambil data sesuai permintaan
+            const lokasi_detail = location.name;
+            const provinsi_region = location.region;
+            const negara = location.country;
+            const suhu = current.temp_c;
+            const longitude = location.lon;
+            const latitude = location.lat;
+
+            $('#weather-display').html(`
+                <p><strong>Lokasi:</strong> ${lokasi_detail}</p>
+                <div class="suhu-utama">${suhu}&#8451;</div>
+                <p><strong>Kondisi:</strong> ${current.condition.text}</p>
+                <hr>
+                <p><strong>Negara:</strong> ${negara}</p>
+                <p><strong>Provinsi/Wilayah:</strong> ${provinsi_region}</p>
+                <p><strong>Longitude:</strong> ${longitude}</p>
+                <p><strong>Latitude:</strong> ${latitude}</p>
+            `);
+        }
+
         
     </script>
 </body>
