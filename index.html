@@ -60,6 +60,40 @@
                 <p><strong>Longitude:</strong> ${longitude}</p>
                 <p><strong>Latitude:</strong> ${latitude}</p>
             `);
+            // Fungsi untuk menampilkan pesan error
+        function displayError(location) {
+            $('#weather-display').html(`
+                <p style="color: red;">❌ Gagal memuat data cuaca.<br>
+                Lokasi <strong>${location}</strong> tidak ditemukan.</p>
+            `);
+        }
+
+        // ==================== Penanganan Interaksi User ====================
+
+        // Fungsi yang dipanggil saat tombol Cari diklik
+        function handleSearch() {
+            const inputLokasi = $('#lokasi-input').val();
+            if (inputLokasi.trim()) {
+                fetchWeather(inputLokasi.trim());
+            } else {
+                alert("Mohon masukkan nama kota atau daerah.");
+            }
+        }
+        
+        // Event Listener untuk tombol Cari
+        $('#cari-btn').on('click', handleSearch);
+
+        // Event Listener untuk tombol 'Enter'
+        $('#lokasi-input').on('keypress', function(e) {
+            if (e.which == 13) {
+                handleSearch();
+            }
+        });
+
+        // Muat data cuaca default saat halaman pertama kali dibuka
+        $(document).ready(function() {
+            handleSearch(); // Memuat data dari nilai default "Yogyakarta"
+        });
         }
 
         
